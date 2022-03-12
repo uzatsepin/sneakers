@@ -1,84 +1,57 @@
+import Product from "./components/Product/Product";
+import Header from "./components/Header/Header";
+import Shopping from "./components/Shopping/Shopping";
 
+const arr = [
+  {
+    title: 'Мужские Кроссовки Nike Blazer Mid Suede', 
+    price: 12999, 
+    imgUrl: './images/products/product_1.jpeg'
+  },
+  {
+    title: 'Мужские Кроссовки Nike Air Max 270', 
+    price: 11999, 
+    imgUrl: './images/products/product_2.jpeg'
+  },
+  {
+    title: 'Мужские Кроссовки Nike Blazer Mid Suede', 
+    price: 8499, 
+    imgUrl: './images/products/product_3.jpeg'
+  },
+  {
+    title: 'Кроссовки Puma X Aka Boku Future Rider', 
+    price: 8999, 
+    imgUrl: './images/products/product_4.jpeg'
+  }
+]
 
 function App() {
   return (
     <div className="wrapper">
-      <header className="header">
-        <div className="header__left">
-          <img width={40} height={40} src="/images/logo.png" alt="" className="" />
-          <div className="header__info">
-            <h3>React Sneakers</h3>
-            <p>Магазин лучших кроссовок</p>
+      <Shopping/>
+      <Header/>
+
+     <div className="content">
+        <div className="product__search-inner">
+          <h1>Все кроссовки</h1>
+          <div className="product__search">
+            <img src="images/search.svg" alt="search" />
+            <input type="text" placeholder="Поиск..." />
           </div>
         </div>
-        <ul className="header__right">
-          <li className="header__card">
-            <img className="header__card-img" width={18} height={18} src="/images/cart.svg" alt="cart" />
-            <span>1206 руб.</span>
-            </li>
-          <li>
-            <img className="header__user-img" width={18} height={18} src="/images/user.svg" alt="user" />
-          </li>
-        </ul>
-      </header>
-
-      <div className="content">
-        <h1>Все кроссовки</h1>
-          <div className="products__wrapper">
-            <div className="product">
-              <img width={133} height={122} className="product__icon" src="images/products/nike blazer mid suede.jpeg" alt="Sneakers"/>
-              <p className="product__name">Мужские Кроссовки Nike Blazer Mid Suede</p>
-              <div className="product_wrapper">
-                <div className="product__price">
-                  <span>Цена:</span>
-                  <b>12 999 руб.</b>
-                </div>
-                <button className="product__btn">
-                  <img width={11} height={11} src="/images/plus.svg" alt="buy" />
-                </button>
-              </div>
-            </div>
-            <div className="product">
-              <img width={133} height={122} className="product__icon" src="images/products/product_2.jpeg" alt="Sneakers"/>
-              <p className="product__name">Мужские Кроссовки Nike Blazer Mid Suede</p>
-              <div className="product_wrapper">
-                <div className="product__price">
-                  <span>Цена:</span>
-                  <b>12 999 руб.</b>
-                </div>
-                <button className="product__btn">
-                  <img width={11} height={11} src="/images/plus.svg" alt="buy" />
-                </button>
-              </div>
-            </div>
-            <div className="product">
-              <img width={133} height={122} className="product__icon" src="images/products/product_3.jpeg" alt="Sneakers"/>
-              <p className="product__name">Мужские Кроссовки Nike Blazer Mid Suede</p>
-              <div className="product_wrapper">
-                <div className="product__price">
-                  <span>Цена:</span>
-                  <b>12 999 руб.</b>
-                </div>
-                <button className="product__btn">
-                  <img width={11} height={11} src="/images/plus.svg" alt="buy" />
-                </button>
-              </div>
-            </div>
-            <div className="product">
-              <img width={133} height={122} className="product__icon" src="images/products/product_4.jpeg" alt="Sneakers"/>
-              <p className="product__name">Мужские Кроссовки Nike Blazer Mid Suede</p>
-              <div className="product_wrapper">
-                <div className="product__price">
-                  <span>Цена:</span>
-                  <b>12 999 руб.</b>
-                </div>
-                <button className="product__btn">
-                  <img width={11} height={11} src="/images/plus.svg" alt="buy" />
-                </button>
-              </div>
-            </div>  
-          </div>
-      </div>
+        <div className="products__wrapper">{
+             arr.map((obj, id) => (
+               <Product 
+                key={id}
+                title={obj.title}
+                price={obj.price}
+                imageUrl={obj.imgUrl}
+                onClick={() => {console.log(id)}}
+               />
+             ))
+            }
+        </div>
+     </div>
     </div>
      
   );
