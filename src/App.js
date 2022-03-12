@@ -1,35 +1,29 @@
 import Product from "./components/Product/Product";
 import Header from "./components/Header/Header";
 import Shopping from "./components/Shopping/Shopping";
-
-const arr = [
-  {
-    title: 'Мужские Кроссовки Nike Blazer Mid Suede', 
-    price: 12999, 
-    imgUrl: './images/products/product_1.jpeg'
-  },
-  {
-    title: 'Мужские Кроссовки Nike Air Max 270', 
-    price: 11999, 
-    imgUrl: './images/products/product_2.jpeg'
-  },
-  {
-    title: 'Мужские Кроссовки Nike Blazer Mid Suede', 
-    price: 8499, 
-    imgUrl: './images/products/product_3.jpeg'
-  },
-  {
-    title: 'Кроссовки Puma X Aka Boku Future Rider', 
-    price: 8999, 
-    imgUrl: './images/products/product_4.jpeg'
-  }
-]
+import { useState, useEffect } from "react";
 
 function App() {
+
+  const [items, setItems] = useState([]);
+  const [cartOpened, setCartOpened] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+
+ useEffect(() => {
+  fetch('https://622ce8fd087e0e041e1669d2.mockapi.io/items')
+  .then(res => {return res.json()})
+  .then(json => setItems(json));
+ }, [])
+
+ const onAddToCart = (obj) => {
+    setCartItems(prev => [...prev, obj])
+ }
+
+
   return (
     <div className="wrapper">
-      <Shopping/>
-      <Header/>
+      {cartOpened && <Shopping items={cartItems} onClose={() => setCartOpened(false)}/>}
+      <Header onClickCart={() => setCartOpened(true)}/>
 
      <div className="content">
         <div className="product__search-inner">
@@ -40,13 +34,14 @@ function App() {
           </div>
         </div>
         <div className="products__wrapper">{
-             arr.map((obj, id) => (
+             items.map((item, id) => (
                <Product 
                 key={id}
-                title={obj.title}
-                price={obj.price}
-                imageUrl={obj.imgUrl}
-                onClick={() => {console.log(id)}}
+                title={item.title}
+                price={item.price}
+                imageUrl={item.imgUrl}
+                onFavourite={() => {console.log('Добавили в закладки')}}
+                onPlus={(obj) => onAddToCart(obj)}
                />
              ))
             }
