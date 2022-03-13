@@ -38,6 +38,13 @@ header {
     }
   }
 
+.header__left {
+  a {
+    text-decoration: none;
+    display: flex;
+  }
+}
+
 .header__right {
     align-items: center;
     display: flex;
@@ -45,6 +52,7 @@ header {
   
   .header__user-img {
     margin-top: 5px;
+    cursor: pointer;
   }
   
   .header__card {
@@ -63,4 +71,10 @@ header {
       line-height: 17px;
       color: #5C5C5C;
     }
+}
+
+.header__favourite-img {
+  margin-right: 30px;
+  margin-top: 5px;
+  cursor: pointer;
 }

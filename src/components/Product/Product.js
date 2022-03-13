@@ -1,19 +1,27 @@
 import './product.scss';
 import { useState } from "react";
 
-function Product ({imageUrl, title, price, onFavourite, onPlus}) {
+function Product ({id, imageUrl, title, price, onFavourite, onPlus, favourited = false}) {
 
   const [isAdded, setIsAdded] = useState(false);
+  const [isFavourite, setIsFavourite] = useState(favourited); 
 
   const onClickPlus = () => {
     onPlus({imageUrl, title, price});
     setIsAdded(!isAdded);
   }
 
+  const onClickFavourite = () => {
+    onFavourite({id, imageUrl, title, price});
+    setIsFavourite(!isFavourite);
+  }
+
   return(
       <div className="product">
         <div className="product__favourite">
-          <img src="./images/heart-unliked.svg" alt="favourite" onClick={onFavourite} />
+          <img src={isFavourite ? './images/heart-liked.svg' : './images/heart-unliked.svg'} 
+                alt="favourite" 
+                onClick={onClickFavourite} />
         </div>
           <img width={133} height={122} className="product__icon" src={imageUrl} alt="Sneakers"/>
           <p className="product__name">{title}</p>

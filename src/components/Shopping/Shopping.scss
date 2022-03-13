@@ -128,3 +128,29 @@
       }
     }
   }
+
+.shopping__empty {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex: 1;
+  .shopping__empty-img {
+    margin-bottom: 20px;
+  }
+  .shopping__empty-title {
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 27px;
+    color: #000000;
+  }
+  .shopping__empty-text {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #000000;
+    opacity: 0.4
+  }
+}
