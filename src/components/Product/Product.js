@@ -7,7 +7,7 @@ function Product ({id, imageUrl, title, price, onFavourite, onPlus, favourited =
   const [isFavourite, setIsFavourite] = useState(favourited); 
 
   const onClickPlus = () => {
-    onPlus({imageUrl, title, price});
+    onPlus({id, imageUrl, title, price});
     setIsAdded(!isAdded);
   }
 
