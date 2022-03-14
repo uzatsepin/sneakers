@@ -4,11 +4,9 @@ import AppContext from "../context";
 
 function Favourites() {
     const { favourite, onAddToFavourite } = useContext(AppContext);
-    console.log({favourite})
-
     return(
         <div className="content">
-            <h1>Мои закладки</h1>
+            <h1>Мои Закладки</h1>
         <div className="products__wrapper">
             {
                 favourite.map((item, index) => (

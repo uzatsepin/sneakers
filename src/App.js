@@ -6,6 +6,7 @@ import { Route } from 'react-router-dom';
 import Home  from "./pages/Home";
 import Favourites from "./pages/Favourites";
 import AppContext from "./context";
+import Orders from "./pages/Orders";
 
 function App() {
 
@@ -77,9 +78,19 @@ const onAddToFavourite = async (obj) => {
 
 
   return (
-    <AppContext.Provider value={{cartItems, favourite, items, isItemAdded, onAddToFavourite, setCartOpened, setCartItems }}>
+    <AppContext.Provider 
+            value={{cartItems, 
+                    favourite, 
+                    items, 
+                    isItemAdded, 
+                    onAddToFavourite, 
+                    setCartOpened, 
+                    setCartItems, 
+                    onAddToCart }}>
       <div className="wrapper">
-        {cartOpened && <Shopping items={cartItems} onClose={() => setCartOpened(false)} onRemoveFromCart={onRemoveFromCart}/>}
+
+      {cartOpened && <Shopping items={cartItems} onClose={() => setCartOpened(false)} onRemoveFromCart={onRemoveFromCart}/>}
+
         <Header onClickCart={() => setCartOpened(true)}/>
             <Route path="/" exact>
             <Home
@@ -94,6 +105,9 @@ const onAddToFavourite = async (obj) => {
             </Route>
             <Route path="/favourites">
               <Favourites/>
+            </Route>
+            <Route path="/orders">
+              <Orders/>
             </Route>
       </div>
     </AppContext.Provider>
