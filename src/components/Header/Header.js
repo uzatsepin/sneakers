@@ -1,12 +1,9 @@
-import { useContext } from 'react';
-import {Link} from 'react-router-dom';
-import AppContext from '../../context';
+import { Link } from 'react-router-dom';
+import { useCart } from '../../hooks/useCart';
 
 function Header(props) {
 
-  const { cartItems } = useContext(AppContext);
-
-  const shoppingPrice = cartItems.reduce((sum, obj) => obj.price + sum, 0);
+  const { shoppingPrice } = useCart();
 
     return (
         <header className="header">

@@ -1,13 +1,12 @@
 import Info from "../Info/Info";
 import {useState, useContext} from 'react';
-import AppContext from "../../context";
 import axios from "axios";
+import { useCart } from "../../hooks/useCart";
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 function Shopping({onClose, items = [], onRemoveFromCart}) {
-
-    const {cartItems, setCartItems} = useContext(AppContext );
+    const {cartItems, setCartItems, shoppingPrice} = useCart();
     const [isOrderComplete, setIsOrderComplete] = useState(false);
     const [orderId, setOrderId] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -67,12 +66,12 @@ function Shopping({onClose, items = [], onRemoveFromCart}) {
             <li className="shopping__info-item">
                 <span>Итого:</span>
                 <div></div>
-                <b>21 498 руб.</b>
+                <b>{shoppingPrice} грн.</b>
             </li>
             <li className="shopping__info-item">
                 <span>Налог 5%:</span>
                 <div></div>
-                <b>1074 руб.</b>
+                <b>{Math.round(shoppingPrice / 100 * 5)} грн.</b>
             </li>
             <button disabled={isLoading} onClick={onClickOrder} className="shopping_btn">Оформить заказ <img src="images/arrow.svg" alt="arrow" /></button>
         </ul>
