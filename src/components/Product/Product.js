@@ -47,7 +47,7 @@ function Product ({id, imageUrl, title, price, onFavourite, onPlus, favourited =
         <div className="product_wrapper">
         <div className="product__price">
           <span>Цена:</span>
-          <b>{price} руб.</b>
+          <b>{price} грн.</b>
         </div>
         <img 
               width={32} 
