@@ -15,17 +15,23 @@ function App() {
   const [favourite, setFavourite] = useState([]);
 
  useEffect(() => {
-  axios.get('https://622ce8fd087e0e041e1669d2.mockapi.io/items')
-  .then(res => {setItems(res.data)})
-  axios.get('https://622ce8fd087e0e041e1669d2.mockapi.io/cart')
-  .then(res => {setCartItems(res.data)})
-  axios.get('https://622ce8fd087e0e041e1669d2.mockapi.io/favourites')
-  .then(res => {setFavourite(res.data)})
+  async function fetchData() {
+    const cartResponse = await axios.get('https://622ce8fd087e0e041e1669d2.mockapi.io/cart');
+    const favouritesResponse = axios.get('https://622ce8fd087e0e041e1669d2.mockapi.io/favourites');
+    const itemsResponse = await axios.get('https://622ce8fd087e0e041e1669d2.mockapi.io/items');
+
+    setCartItems(cartResponse.data);
+    setFavourite(favouritesResponse.data);
+    setItems(itemsResponse.data);
+  }
+  
+  fetchData();
  }, [])
 
  const onAddToCart = (obj) => {
   try {
     if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
+      axios.delete(`https://622ce8fd087e0e041e1669d2.mockapi.io/cart${obj.id}`)
       setCartItems(prev => prev.filter(item => Number(item.id) !== Number(obj.id)))
     } else {
       axios.post('https://622ce8fd087e0e041e1669d2.mockapi.io/cart', obj);
@@ -71,6 +77,7 @@ function App() {
               items={items}
               onAddToCart={onAddToCart}
               onAddToFavourite={onAddToFavourite}
+              cartItems={cartItems}
               />
             </Route>
             <Route path="/favourites">

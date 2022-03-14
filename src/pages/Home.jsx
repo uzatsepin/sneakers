@@ -1,6 +1,6 @@
 import Product from "../components/Product/Product";
 
-function Home({searchValue, onChangeSearchInput, items, onAddToCart, onAddToFavourite}) {
+function Home({searchValue, onChangeSearchInput, items, onAddToCart, onAddToFavourite, cartItems, added}) {
     return (
         <div className="content">
         <div className="product__search-inner">
@@ -22,6 +22,7 @@ function Home({searchValue, onChangeSearchInput, items, onAddToCart, onAddToFavo
                 id={item.id}
                 onPlus={(obj) => onAddToCart(obj)}
                 onFavourite={(obj) => onAddToFavourite(obj)}
+                added={cartItems.some(obj => Number(obj.id) === Number(item.id))}
                />
              ))
             }
