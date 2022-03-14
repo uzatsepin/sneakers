@@ -1,4 +1,38 @@
+import Info from "../Info/Info";
+import {useState, useContext} from 'react';
+import AppContext from "../../context";
+import axios from "axios";
+
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
 function Shopping({onClose, items = [], onRemoveFromCart}) {
+
+    const {cartItems, setCartItems} = useContext(AppContext );
+    const [isOrderComplete, setIsOrderComplete] = useState(false);
+    const [orderId, setOrderId] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const onClickOrder = async () => {
+        try {
+          setIsLoading(true);
+          const { data } = await axios.post('https://622ce8fd087e0e041e1669d2.mockapi.io/orders', {
+            items: cartItems,
+          });
+          setOrderId(data.id);
+          setIsOrderComplete(true);
+          setCartItems([]);
+    
+          for (let i = 0; i < cartItems.length; i++) {
+            const item = cartItems[i];
+            await axios.delete('https://622ce8fd087e0e041e1669d2.mockapi.io/cart/' + item.id);
+            await delay(1000);
+          }
+        } catch (error) {
+          alert('Ошибка при создании заказа :(');
+        }
+        setIsLoading(false);
+      };
+
     return (
     <div className="overlay">
         <div className="shopping">
@@ -40,17 +74,14 @@ function Shopping({onClose, items = [], onRemoveFromCart}) {
                 <div></div>
                 <b>1074 руб.</b>
             </li>
-            <button className="shopping_btn">Оформить заказ <img src="images/arrow.svg" alt="arrow" /></button>
+            <button disabled={isLoading} onClick={onClickOrder} className="shopping_btn">Оформить заказ <img src="images/arrow.svg" alt="arrow" /></button>
         </ul>
          </>
-         : <div className="shopping__empty">
-            <img className="shopping__empty-img" src="./images/shopping__empty.png" alt="empty" width={120} height={120} />
-            <div className="shopping__empty-wrapper">
-                <h3 className="shopping__empty-title">Корзина пустая</h3>
-                <p className="shopping__empty-text">Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.</p>
-            </div>
-            <button onClick={onClose} className="shopping_btn"> <img src="images/arrow.svg" alt="arrow" /> Вернуться назад</button>    
-        </div>
+         : <Info 
+            title={isOrderComplete ? "Заказ оформлен" : "Корзина пустая" }
+            image={isOrderComplete ? "./images/ordered.jpeg" : "./images/shopping__empty.png"}
+            descr={isOrderComplete ? `Ваш заказ #${orderId} скоро будет передан курьерской доставке` : "Добавьте, хотя бы одну пару кроссовок"}
+         />
         }
         </div>
     </div>

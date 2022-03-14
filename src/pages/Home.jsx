@@ -1,6 +1,24 @@
 import Product from "../components/Product/Product";
 
-function Home({searchValue, onChangeSearchInput, items, onAddToCart, onAddToFavourite, cartItems, added}) {
+function Home({searchValue, onChangeSearchInput, items, onAddToCart, onAddToFavourite, isLoading}) {
+
+  const renderItems = () => {
+
+    const filtredItems = items.filter((item) =>
+      item.title.toLowerCase().includes(searchValue.toLowerCase()),
+    );
+
+    return (isLoading ? [...Array(8)] : filtredItems).map((item, index) => (
+        <Product 
+            key={index}
+            onPlus={(obj) => onAddToCart(obj)}
+            onFavourite={(obj) => onAddToFavourite(obj)}
+            isLoading={isLoading}
+            {...item}
+        />
+      ))
+  }
+
     return (
         <div className="content">
         <div className="product__search-inner">
@@ -10,22 +28,7 @@ function Home({searchValue, onChangeSearchInput, items, onAddToCart, onAddToFavo
             <input onChange={onChangeSearchInput} value={searchValue} type="text" placeholder="Поиск..." />
           </div>
         </div>
-        <div className="products__wrapper">{
-             items.filter((item) => 
-             item.title.toLowerCase().includes(searchValue.toLowerCase()))
-             .map((item, id) => (
-               <Product 
-                key={id}
-                title={item.title}
-                price={item.price}
-                imageUrl={item.imgUrl}
-                id={item.id}
-                onPlus={(obj) => onAddToCart(obj)}
-                onFavourite={(obj) => onAddToFavourite(obj)}
-                added={cartItems.some(obj => Number(obj.id) === Number(item.id))}
-               />
-             ))
-            }
+        <div className="products__wrapper">{renderItems()}
         </div>
      </div>
     )

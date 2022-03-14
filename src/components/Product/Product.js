@@ -1,15 +1,15 @@
 import './product.scss';
-import { useState } from "react";
-import ContentLoader from "react-content-loader"
+import { useState, useContext } from "react";
+import ContentLoader from "react-content-loader";
+import AppContext from '../../context';
 
-function Product ({id, imageUrl, title, price, onFavourite, onPlus, favourited = false, added = false, loading = false}) {
+function Product ({id, imageUrl, title, price, onFavourite, onPlus, favourited = false, isLoading  = false}) {
 
-  const [isAdded, setIsAdded] = useState(false);
+  const {isItemAdded} = useContext(AppContext);
   const [isFavourite, setIsFavourite] = useState(favourited); 
 
   const onClickPlus = () => {
     onPlus({id, imageUrl, title, price});
-    setIsAdded(!isAdded);
   }
 
   const onClickFavourite = () => {
@@ -21,7 +21,7 @@ function Product ({id, imageUrl, title, price, onFavourite, onPlus, favourited =
       <div className="product">
 
     {
-    loading ? 
+    isLoading ? 
         <ContentLoader 
         speed={3}
         width={187}
@@ -34,8 +34,10 @@ function Product ({id, imageUrl, title, price, onFavourite, onPlus, favourited =
         <rect x="0" y="130" rx="3" ry="3" width="90" height="15" /> 
         <rect x="0" y="155" rx="8" ry="8" width="80" height="25" /> 
         <rect x="115" y="145" rx="8" ry="8" width="32" height="32" />
-    </ContentLoader> : <>
-    : <div className="product__favourite">
+    </ContentLoader> 
+    : 
+    <>
+    <div className="product__favourite">
           <img src={isFavourite ? './images/heart-liked.svg' : './images/heart-unliked.svg'} 
                 alt="favourite" 
                 onClick={onClickFavourite} />
@@ -50,7 +52,7 @@ function Product ({id, imageUrl, title, price, onFavourite, onPlus, favourited =
         <img 
               width={32} 
               height={32} 
-              src={isAdded ? './images/btn-cheked.svg' : './images/btn-plus.svg'} 
+              src={isItemAdded(id) ? './images/btn-cheked.svg' : './images/btn-plus.svg'} 
               alt="buy" 
               onClick={onClickPlus}/>
         </div>
